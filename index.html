@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which Hated SG Ingredient Are You?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FFF9ED;background-image:radial-gradient(#e8c96a 1.5px,transparent 1.5px);background-size:22px 22px;font-family:'Nunito',sans-serif;padding:20px;min-height:100vh;display:flex;align-items:flex-start;justify-content:center}
+.panel{background:#fff;border:3px solid #1a1a1a;box-shadow:5px 5px 0 #1a1a1a;padding:24px;max-width:620px;width:100%;margin:0 auto;position:relative}
+.burst{display:inline-block;background:#FF3B3B;color:#fff;font-family:'Fredoka One',cursive;font-size:12px;letter-spacing:1.5px;padding:4px 14px;border:2px solid #1a1a1a;box-shadow:2px 2px 0 #1a1a1a;transform:rotate(-2deg);margin-bottom:14px}
+.intro-title{font-family:'Fredoka One',cursive;font-size:clamp(30px,7vw,50px);line-height:1.1;color:#1a1a1a;margin-bottom:8px;text-shadow:3px 3px 0 #FFD600}
+.intro-title span{color:#FF3B3B}
+.intro-sub{font-size:14px;color:#555;line-height:1.6;margin-bottom:24px;text-align:center}
+.start-btn{font-family:'Fredoka One',cursive;font-size:24px;letter-spacing:1px;background:#FF3B3B;color:#fff;border:3px solid #1a1a1a;box-shadow:5px 5px 0 #1a1a1a;padding:12px 32px;cursor:pointer;transition:transform .08s,box-shadow .08s;display:block;width:100%}
+.start-btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 #1a1a1a}
+.start-btn:active{transform:translate(5px,5px);box-shadow:0 0 0 #1a1a1a}
+.progress-wrap{margin-bottom:18px}
+.progress-label{font-size:12px;font-weight:800;letter-spacing:.5px;color:#888;margin-bottom:6px;text-transform:uppercase}
+.progress-track{height:14px;background:#eee;border:2px solid #1a1a1a;overflow:hidden}
+.progress-fill{height:100%;background:repeating-linear-gradient(45deg,#FFD600,#FFD600 6px,#FF3B3B 6px,#FF3B3B 12px);transition:width .4s ease}
+.q-text{font-family:'Fredoka One',cursive;font-size:clamp(18px,4vw,25px);line-height:1.3;color:#1a1a1a;margin-bottom:20px;padding-bottom:14px;border-bottom:2px dashed #ddd}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:#fff;border:2.5px solid #1a1a1a;box-shadow:4px 4px 0 #1a1a1a;padding:13px 16px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:#1a1a1a;text-align:left;cursor:pointer;display:flex;align-items:flex-start;gap:12px;line-height:1.5;transition:all .07s;position:relative;overflow:hidden}
+.opt-letter{font-family:'Fredoka One',cursive;font-size:18px;color:#FF3B3B;min-width:22px;line-height:1.2;flex-shrink:0}
+.opt:hover{background:#FFD600;transform:translate(-3px,-3px);box-shadow:7px 7px 0 #1a1a1a}
+.opt:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #1a1a1a}
+@keyframes popIn{from{opacity:0;transform:rotate(10deg) scale(0.5)}to{opacity:1;transform:rotate(10deg) scale(1)}}
+@keyframes panelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes wobble{0%{transform:rotate(-4deg) scale(0)}70%{transform:rotate(-4deg) scale(1.12)}100%{transform:rotate(-4deg) scale(1)}}
+.panel-anim{animation:panelIn .35s ease both}
+.result-emoji-wrap{text-align:center;margin-bottom:12px}
+.result-emoji-bg{display:inline-flex;align-items:center;justify-content:center;background:#FFD600;border:3px solid #1a1a1a;box-shadow:5px 5px 0 #1a1a1a;width:100px;height:100px;transform:rotate(-4deg);animation:wobble .5s ease both;overflow:hidden}
+.youare{font-family:'Fredoka One',cursive;font-size:13px;letter-spacing:2px;color:#888;text-align:center;margin-top:12px;margin-bottom:4px}
+.result-name{font-family:'Fredoka One',cursive;font-size:clamp(34px,8vw,54px);text-align:center;color:#1a1a1a;text-shadow:4px 4px 0 #FFD600;line-height:1;margin-bottom:6px}
+.result-tag{text-align:center;margin-bottom:16px}
+.result-tag span{display:inline-block;background:#FF3B3B;color:#fff;font-family:'Fredoka One',cursive;font-size:14px;letter-spacing:1px;padding:3px 14px;border:2px solid #1a1a1a;box-shadow:2px 2px 0 #1a1a1a;transform:rotate(1deg)}
+.verdict-box{background:#FFF9ED;border:2.5px solid #1a1a1a;padding:14px 16px 12px 44px;margin-bottom:14px;font-size:15px;font-style:italic;font-weight:700;color:#333;line-height:1.6;position:relative}
+.verdict-box::before{content:'"';font-family:'Fredoka One',cursive;font-size:52px;color:#FFD600;position:absolute;top:-8px;left:8px;line-height:1}
+.rcard{border:2.5px solid #1a1a1a;margin-bottom:10px;overflow:hidden}
+.rcard-head{background:#1a1a1a;color:#FFD600;font-family:'Fredoka One',cursive;font-size:13px;letter-spacing:1px;padding:6px 14px}
+.rcard-body{background:#fff;padding:12px 14px;font-size:13px;line-height:1.7;color:#1a1a1a;font-weight:600}
+.compat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.compat-card{border:2.5px solid #1a1a1a;overflow:hidden}
+.compat-head{font-family:'Fredoka One',cursive;font-size:12px;letter-spacing:1px;padding:5px 12px}
+.compat-head.vibes{background:#6BCB77;color:#1a1a1a}
+.compat-head.clash{background:#FF3B3B;color:#fff}
+.compat-body{background:#fff;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.compat-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:700;color:#1a1a1a}
+.compat-img{width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.compat-text{display:flex;flex-direction:column;gap:1px}
+.compat-name{font-size:13px;font-weight:800;color:#1a1a1a;line-height:1.2}
+.compat-reason{font-size:11px;font-weight:600;color:#666;line-height:1.4}
+.retry-btn{font-family:'Fredoka One',cursive;font-size:20px;letter-spacing:1px;background:#1a1a1a;color:#FFD600;border:3px solid #1a1a1a;box-shadow:5px 5px 0 #FFD600;padding:10px 20px;cursor:pointer;display:block;width:100%;margin-top:14px;transition:all .08s}
+.retry-btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 #FFD600}
+.corner-deco{position:absolute;font-family:'Fredoka One',cursive;font-size:11px;letter-spacing:1px;color:#ccc}
+.corner-deco.tl{top:6px;left:10px}
+.corner-deco.br{bottom:6px;right:10px}
+.zigzag{height:12px;background:linear-gradient(135deg,#FF3B3B 25%,transparent 25%) -12px 0,linear-gradient(225deg,#FF3B3B 25%,transparent 25%) -12px 0,linear-gradient(315deg,#FF3B3B 25%,transparent 25%),linear-gradient(45deg,#FF3B3B 25%,transparent 25%);background-size:24px 12px;margin-bottom:16px}
+.food-illustrations{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.food-illus-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'Fredoka One',cursive;font-size:9px;color:#888;letter-spacing:.5px}
+.illus-circle{width:44px;height:44px;border-radius:50%;border:2px solid #1a1a1a;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #1a1a1a}
+.game-kicker{display:inline-block;background:#FFD600;color:#1a1a1a;font-family:'Fredoka One',cursive;font-size:11px;letter-spacing:1.5px;padding:3px 12px;border:2px solid #1a1a1a;box-shadow:2px 2px 0 #1a1a1a;transform:rotate(1.5deg);margin-bottom:10px}
+.game-title{font-family:'Fredoka One',cursive;font-size:clamp(22px,5vw,32px);color:#1a1a1a;text-shadow:2px 2px 0 #FFD600;margin-bottom:4px}
+.game-sub{font-size:13px;color:#555;font-weight:700;margin-bottom:14px;line-height:1.5}
+.game-level-bar{display:flex;gap:5px}
+.game-pip{width:26px;height:11px;border:2px solid #1a1a1a}
+.game-pip.pending{background:#eee}
+.game-pip.hit{background:#6BCB77}
+.game-pip.miss{background:#FF3B3B}
+.game-pip.active{background:repeating-linear-gradient(45deg,#FFD600,#FFD600 4px,#fff 4px,#fff 8px)}
+.game-arena{position:relative;width:100%;height:150px;background:#FFF9ED;border:3px solid #1a1a1a;box-shadow:4px 4px 0 #1a1a1a;overflow:hidden;margin-bottom:12px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.game-track{position:absolute;bottom:34px;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,#ccc,#ccc 6px,transparent 6px,transparent 12px)}
+.game-table{position:absolute;bottom:12px;height:22px;background:#C8A84B;border:2.5px solid #1a1a1a;box-shadow:3px 3px 0 #1a1a1a;display:flex;align-items:center;justify-content:center}
+.game-table-leg{position:absolute;bottom:-11px;width:4px;height:11px;background:#8B6914;border:1.5px solid #1a1a1a}
+.game-table-leg.l{left:5px}
+.game-table-leg.r{right:5px}
+.game-tissue{position:absolute;bottom:34px;will-change:left}
+.game-stop-btn{font-family:'Fredoka One',cursive;font-size:22px;letter-spacing:1px;background:#FFD600;color:#1a1a1a;border:3px solid #1a1a1a;box-shadow:5px 5px 0 #1a1a1a;padding:10px;cursor:pointer;display:block;width:100%;transition:all .08s;margin-bottom:0}
+.game-stop-btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 #1a1a1a}
+.game-stop-btn:active{transform:translate(5px,5px);box-shadow:0 0 0 #1a1a1a}
+.game-feedback{font-family:'Fredoka One',cursive;font-size:18px;text-align:center;padding:10px 14px;border:2.5px solid #1a1a1a;margin-top:10px;animation:popIn .2s ease both}
+.game-feedback.hit{background:#6BCB77;color:#1a1a1a}
+.game-feedback.miss{background:#FF3B3B;color:#fff}
+@keyframes tissueWobble{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}100%{transform:rotate(0)}}
+.tissue-wobble{animation:tissueWobble .35s ease}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- INTRO -->
+<div class="panel panel-anim" id="intro">
+  <span class="corner-deco tl">✦ SG EDITION ✦</span>
+  <div style="text-align:center;padding-top:10px">
+    <div class="burst">⚡ A DEFINITIVE STUDY ⚡</div>
+    <div class="intro-title">Which <span>Hated</span><br>SG Ingredient<br>Are You?</div>
+    <p class="intro-sub">8 questions. Ruthlessly honest results.<br>Somewhere between tasting notes and a therapy session.</p>
+  </div>
+
+  <!-- Mystery teaser -->
+  <div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:56px;height:56px;border-radius:50%;border:3px solid #1a1a1a;background:#FFD600;box-shadow:3px 3px 0 #1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:28px;transform:rotate(-3deg)">?</div>
+    </div>
+    <div style="font-family:'Fredoka One',cursive;font-size:13px;color:#888;text-align:center;line-height:1.8">
+      8 possible results.<br>
+      <span style="color:#FF3B3B">Which one are you?</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:56px;height:56px;border-radius:50%;border:3px solid #1a1a1a;background:#FF3B3B;box-shadow:3px 3px 0 #1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:28px;color:#fff;transform:rotate(4deg)">?</div>
+    </div>
+  </div>
+
+  <div class="zigzag"></div>
+  <button class="start-btn" onclick="startQuiz()">DARE TO FIND OUT &#8594;</button>
+  <span class="corner-deco br">VOL.1 NO.1</span>
+</div>
+
+<!-- QUIZ -->
+<div class="panel panel-anim" id="quiz" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-label" id="q-label">Question 1 of 8</div>
+    <div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+  </div>
+  <div class="q-text" id="q-text"></div>
+  <div class="options" id="options"></div>
+</div>
+
+<!-- RESULT -->
+<div class="panel panel-anim" id="result" style="display:none">
+  <div class="result-emoji-wrap">
+    <div class="result-emoji-bg" id="res-icon"></div>
+  </div>
+  <div class="youare">YOU ARE...</div>
+  <div class="result-name" id="res-name"></div>
+  <div class="result-tag"><span id="res-subtitle"></span></div>
+  <div class="verdict-box" id="res-verdict"></div>
+  <div class="rcard"><div class="rcard-head">&#9889; YOUR FLAVOUR PROFILE</div><div class="rcard-body" id="res-profile"></div></div>
+  <div class="compat-grid">
+    <div class="compat-card">
+      <div class="compat-head vibes">&#128154; You Vibe With</div>
+      <div class="compat-body" id="res-vibes"></div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-head clash">&#128165; You Clash With</div>
+      <div class="compat-body" id="res-clashes"></div>
+    </div>
+  </div>
+  <div class="rcard"><div class="rcard-head">&#128172; YOUR CATCHPHRASE</div><div class="rcard-body" id="res-catchphrase"></div></div>
+  <div class="rcard"><div class="rcard-head">&#128218; YOUR BIBLE VERSION</div><div class="rcard-body" id="res-bible"></div></div>
+  <div class="rcard"><div class="rcard-head">&#128106; YOUR PARENTING STYLE</div><div class="rcard-body" id="res-parenting"></div></div>
+  <div class="rcard" id="res-game-card" style="display:none"><div class="rcard-head">&#127918; TISSUE CHOPE SCORE</div><div class="rcard-body" id="res-game-body"></div></div>
+  <button class="retry-btn" onclick="restart()">&#8635; TRY AGAIN (YOU MIGHT BE WORSE)</button>
+</div>
+
+<!-- GAME -->
+<div class="panel panel-anim" id="game" style="display:none">
+  <div style="text-align:center;margin-bottom:4px">
+    <div class="game-kicker">&#127918; BONUS ROUND</div>
+    <div class="game-title">Chope the Table!</div>
+    <p class="game-sub">Stop the tissue packet on the table.<br>5 levels — fail one and it's game over.</p>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div style="font-family:'Fredoka One',cursive;font-size:13px;color:#888">LEVEL <span id="game-level-display" style="color:#FF3B3B;font-size:20px">1</span> / 5</div>
+    <div class="game-level-bar" id="game-pips" style="gap:5px"></div>
+    <div style="font-family:'Fredoka One',cursive;font-size:13px;color:#888">SCORE <span id="game-score-display" style="color:#1a1a1a;font-size:20px">0</span></div>
+  </div>
+  <div class="game-arena" id="game-arena" onclick="gameStop()">
+    <div class="game-track"></div>
+    <div class="game-table" id="game-table">
+      <div class="game-table-leg l"></div>
+      <div class="game-table-leg r"></div>
+    </div>
+    <div class="game-tissue" id="game-tissue">
+      <svg width="36" height="32" viewBox="0 0 36 32" fill="none">
+        <rect x="2" y="6" width="32" height="22" rx="4" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+        <rect x="2" y="6" width="32" height="8" rx="4" fill="#3B9EFF" stroke="#1a1a1a" stroke-width="2"/>
+        <rect x="12" y="2" width="12" height="8" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M15 6 Q18 3 21 6" fill="none" stroke="#3B9EFF" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="7" y1="20" x2="29" y2="20" stroke="#eee" stroke-width="1.5"/>
+        <line x1="7" y1="24" x2="22" y2="24" stroke="#eee" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div id="game-burst" style="position:absolute;top:10px;right:10px;font-family:'Fredoka One',cursive;font-size:20px;opacity:0;transform:rotate(10deg);pointer-events:none;border:2px solid #1a1a1a;padding:2px 8px;box-shadow:2px 2px 0 #1a1a1a;transition:opacity .2s"></div>
+  </div>
+  <button class="game-stop-btn" id="game-stop-btn" onclick="gameStop()">&#9646;&#9646; STOP!</button>
+  <div id="game-feedback" style="display:none"></div>
+</div>
+
+</div><!-- end #app -->
+
+<script>
+const foodSVGs={
+  durian:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="34" r="20" fill="#C8A84B" stroke="#1a1a1a" stroke-width="2"/><line x1="30" y1="14" x2="26" y2="5" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="30" y1="14" x2="34" y2="4" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="43" y1="20" x2="52" y2="16" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="47" y1="32" x2="57" y2="30" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="20" x2="8" y2="16" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="13" y1="32" x2="3" y2="30" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="24" y1="52" x2="22" y2="58" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><line x1="36" y1="52" x2="38" y2="58" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><path d="M17 34 Q30 26 43 34 Q37 48 30 50 Q23 48 17 34Z" fill="#F5DEB3" stroke="#1a1a1a" stroke-width="1.5"/></svg>`,
+  mala:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30 52 C22 52 15 44 15 32 C15 20 22 10 30 8 C38 10 45 20 45 32 C45 44 38 52 30 52Z" fill="#FF3B3B" stroke="#1a1a1a" stroke-width="2"/><path d="M30 8 C30 8 28 4 30 2 C32 0 34 2 32 6" fill="#4CAF50" stroke="#1a1a1a" stroke-width="1.5"/><path d="M34 6 C36 2 40 2 40 6" fill="none" stroke="#4CAF50" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="24" cy="27" rx="4" ry="6" fill="#FF6B6B" opacity=".5"/></svg>`,
+  vinegar:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="16" width="20" height="36" rx="4" fill="#D6EEFF" stroke="#1a1a1a" stroke-width="2"/><rect x="22" y="8" width="16" height="10" rx="2" fill="#B0D4F1" stroke="#1a1a1a" stroke-width="2"/><rect x="24" y="3" width="12" height="7" rx="2" fill="#888" stroke="#1a1a1a" stroke-width="1.5"/><line x1="20" y1="30" x2="40" y2="30" stroke="#1a1a1a" stroke-width="1.2" stroke-dasharray="3 2"/><ellipse cx="30" cy="40" rx="6" ry="4" fill="#A0C8E8" opacity=".6"/><text x="30" y="26" text-anchor="middle" font-family="Fredoka One,cursive" font-size="9" fill="#3B7DB0">醋</text></svg>`,
+  pig_intestine:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 20 C10 13 20 13 20 20 C20 27 30 27 30 20 C30 13 40 13 40 20 C40 27 50 27 50 20" fill="none" stroke="#E8A87C" stroke-width="8" stroke-linecap="round"/><path d="M10 20 C10 13 20 13 20 20 C20 27 30 27 30 20 C30 13 40 13 40 20 C40 27 50 27 50 20" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/><path d="M10 38 C10 31 20 31 20 38 C20 45 30 45 30 38 C30 31 40 31 40 38 C40 45 50 45 50 38" fill="none" stroke="#E8A87C" stroke-width="8" stroke-linecap="round"/><path d="M10 38 C10 31 20 31 20 38 C20 45 30 45 30 38 C30 31 40 31 40 38 C40 45 50 45 50 38" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/></svg>`,
+  cincalok:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 48 C12 38 14 26 22 18 C32 10 44 14 46 24 C48 34 42 44 32 46 C24 48 20 42 20 36 C20 30 26 27 30 30" fill="none" stroke="#FF8FAB" stroke-width="5" stroke-linecap="round"/><circle cx="46" cy="20" r="5" fill="#FF6B9D" stroke="#1a1a1a" stroke-width="1.5"/><line x1="46" y1="15" x2="50" y2="10" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/><line x1="49" y1="18" x2="54" y2="16" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/><path d="M16 48 L11 54" stroke="#FF8FAB" stroke-width="4" stroke-linecap="round"/></svg>`,
+  parsley:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="56" x2="30" y2="26" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/><ellipse cx="30" cy="20" rx="9" ry="12" fill="#66BB6A" stroke="#1a1a1a" stroke-width="1.5"/><ellipse cx="18" cy="30" rx="8" ry="10" fill="#66BB6A" stroke="#1a1a1a" stroke-width="1.5" transform="rotate(-20 18 30)"/><ellipse cx="42" cy="30" rx="8" ry="10" fill="#81C784" stroke="#1a1a1a" stroke-width="1.5" transform="rotate(20 42 30)"/></svg>`,
+  bitter_gourd:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="32" rx="13" ry="24" fill="#7DC67E" stroke="#1a1a1a" stroke-width="2"/><ellipse cx="24" cy="22" rx="4" ry="6" fill="#5CAF5E" stroke="#1a1a1a" stroke-width="1.2"/><ellipse cx="36" cy="28" rx="4" ry="6" fill="#5CAF5E" stroke="#1a1a1a" stroke-width="1.2"/><ellipse cx="24" cy="38" rx="4" ry="6" fill="#5CAF5E" stroke="#1a1a1a" stroke-width="1.2"/><ellipse cx="36" cy="44" rx="4" ry="6" fill="#5CAF5E" stroke="#1a1a1a" stroke-width="1.2"/><path d="M30 8 C30 8 28 4 31 3 C33 3 33 5 31 7" fill="#4CAF50" stroke="#1a1a1a" stroke-width="1.2"/></svg>`,
+  pork_lard:`<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="24" width="32" height="30" rx="4" fill="#FFF0C0" stroke="#1a1a1a" stroke-width="2"/><rect x="12" y="16" width="36" height="10" rx="2" fill="#E8D080" stroke="#1a1a1a" stroke-width="2"/><rect x="18" y="8" width="24" height="10" rx="4" fill="#C8B860" stroke="#1a1a1a" stroke-width="1.5"/><ellipse cx="30" cy="40" rx="10" ry="6" fill="#F5E090" opacity=".8"/><circle cx="30" cy="34" r="4" fill="#E8C050" opacity=".6"/></svg>`,
+};
+const foodSVGsSmall={};
+Object.keys(foodSVGs).forEach(k=>{foodSVGsSmall[k]=foodSVGs[k].replace(/width="60" height="60"/,'width="32" height="32"');});
+const foodNames={durian:'Durian',mala:'Mala',vinegar:'Vinegar',pig_intestine:'Pig Intestine',cincalok:'Cincalok',parsley:'Parsley',bitter_gourd:'Bitter Gourd',pork_lard:'Pork Lard'};
+
+const questions=[
+  {text:"It's a Saturday morning with no plans. What's the vibe?",options:[
+    {text:"Coffee (or Milo) alone, no talking until I'm ready",scores:{pork_lard:2,cincalok:1}},
+    {text:"Big family breakfast, the louder the better",scores:{pig_intestine:2,durian:1}},
+    {text:"I already finished my errands before 9am",scores:{cincalok:2,bitter_gourd:1}},
+    {text:"Sleep in, absolutely no guilt about it",scores:{durian:2,parsley:1}},
+  ]},
+  {text:"Your friend is venting about a tough week. You:",options:[
+    {text:"Listen quietly, then give one very honest observation",scores:{bitter_gourd:2,vinegar:1}},
+    {text:"Immediately start problem-solving. You can't just sit there.",scores:{mala:2,pig_intestine:1}},
+    {text:"Change the subject to something lighter. They need a distraction.",scores:{durian:2,parsley:1}},
+    {text:"You don't say much in the moment, but you're filing everything away. You'll bring it up when it matters.",scores:{cincalok:2,vinegar:1}},
+  ]},
+  {text:"How do people introduce you to someone new?",options:[
+    {text:'"They take a bit of getting used to, but you\'ll love them"',scores:{bitter_gourd:3,cincalok:1}},
+    {text:'"Very intense, but in a fun way"',scores:{mala:3}},
+    {text:'"You\'ll definitely know when they\'re around"',scores:{durian:2,pig_intestine:1}},
+    {text:'"They never notice you until you\'re not there"',scores:{parsley:3}},
+  ]},
+  {text:"Pick your ideal weekend dinner situation:",options:[
+    {text:"Hawker centre, something smoky that splits opinions",scores:{durian:2,pork_lard:1}},
+    {text:"Spicy hotpot, everyone's sweating and loving it",scores:{mala:3}},
+    {text:"Home-cooked meal, something your grandma would approve",scores:{pork_lard:2,pig_intestine:1}},
+    {text:"Quiet restaurant, meaningful conversation over something understated",scores:{bitter_gourd:2,parsley:1}},
+  ]},
+  {text:"A colleague takes credit for your idea in a meeting. You:",options:[
+    {text:"Say nothing now. Remember it. Address it strategically later.",scores:{vinegar:3}},
+    {text:"Call it out on the spot, calmly but clearly",scores:{mala:2,pig_intestine:1}},
+    {text:"Feel a bit stung, then decide it's not worth the conflict",scores:{bitter_gourd:2,parsley:1}},
+    {text:"Genuinely let it go — you'll get your moment",scores:{pork_lard:2,durian:1}},
+  ]},
+  {text:"Which best describes how you handle disagreements?",options:[
+    {text:"I document everything. You never know when it's useful.",scores:{vinegar:3,cincalok:1}},
+    {text:"I escalate fast but cool down just as fast",scores:{mala:3}},
+    {text:"I go quiet and hope it resolves itself. It usually doesn't.",scores:{parsley:2,bitter_gourd:1}},
+    {text:"I ask the question nobody else is willing to ask",scores:{bitter_gourd:2,vinegar:1}},
+  ]},
+  {text:"Which hawker dish best captures your energy?",options:[
+    {text:"Bak chor mee — layered, a bit chaotic, deeply satisfying",scores:{pig_intestine:2,vinegar:1}},
+    {text:"Mala xiang guo — you choose your level and then regret it",scores:{mala:3}},
+    {text:"Durian cendol — polarising, rich, not for everyone",scores:{durian:2,cincalok:1}},
+    {text:"Cheng tng — gentle, underrated, quietly nourishing",scores:{parsley:2,bitter_gourd:1}},
+  ]},
+  {text:"What's your honest relationship with the past?",options:[
+    {text:"I find comfort in how things used to be done",scores:{pork_lard:3,pig_intestine:1}},
+    {text:"I hold onto things — they might come in handy one day",scores:{vinegar:3}},
+    {text:"I think discomfort is how you actually grow",scores:{bitter_gourd:2,mala:1}},
+    {text:"I process slowly, then emerge changed",scores:{cincalok:3}},
+  ]},
+];
+
+const extras={
+  durian:{
+    bible:'King James Version — because nothing less than thee and thou befits your presence. The language is theatrical, the imagery is overwhelming, and frankly it asks a lot of the reader. You would not have it any other way.',
+    parenting:'The Hype Parent. You are louder than necessary at every school event. Your child\'s achievements are broadcasted. Your love is intense, undeniable, and occasionally needs to be turned down a notch.'
+  },
+  bitter_gourd:{
+    bible:'English Standard Version — precise, intellectually rigorous, slightly uncomfortable to read. You chose it because it does not soften the hard bits, and you do not think hard bits should be softened.',
+    parenting:'The Honest Parent. You tell your child the truth about the world earlier than most parents would. Your parenting philosophy is: reality now is better than disappointment later. Your kids respect you enormously once they turn 25.'
+  },
+  pork_lard:{
+    bible:'New King James Version — a respectful update of something that was already working. You did not see the need for a complete overhaul. You just wanted the thee and thou fixed.',
+    parenting:'The Traditional Parent. Chores, curfews, family dinners with the phone off the table. You do not explain every rule, but the rules are consistent and the house runs like clockwork. Your kids will thank you eventually.'
+  },
+  cincalok:{
+    bible:'New Revised Standard Version — used primarily by scholars and people who have been sitting with theological questions for a very long time. Not glamorous. Deeply researched. Aged well.',
+    parenting:'The Quiet Depth Parent. You do not say much, but when you speak your child listens. Your parenting style is slow, deliberate, and deeply felt. You are the parent they call at 2am when something goes wrong.'
+  },
+  pig_intestine:{
+    bible:'New Living Translation — bold, accessible, zero apology for its directness. It does not hedge. It says what it means. You appreciate that it gets straight to the point and does not ask permission.',
+    parenting:'The No-Nonsense Parent. There is no drama, no negotiating, no explaining yourself twice. You love your kids fiercely and show it through action, not speeches. Boundaries are clear. So is the love behind them.'
+  },
+  parsley:{
+    bible:'New International Version — the background version. Everyone has it, few people talk about it, but it quietly shows up in the footnotes of almost every important document. You identify with this deeply.',
+    parenting:'The Steady Parent. You are not the loudest in the school WhatsApp group. But your child always has what they need, always knows you are there, and always feels safe coming home. That is everything.'
+  },
+  vinegar:{
+    bible:'Amplified Bible — every verse followed by clarifying brackets, alternative translations, and additional context. You have notes. You always have notes. You find the standard version insufficiently precise.',
+    parenting:'The Structured Parent. You have a spreadsheet for this. Developmental milestones are tracked. Rules have reasoning. You will revisit any decision that did not go well and there will be a debrief. Your children grow up either very organised or very in therapy — sometimes both.'
+  },
+  mala:{
+    bible:'The Message — colloquial, punchy, writes the Psalms like text messages. Some people think it goes too far. You think everyone else is being too uptight. You highlight it in red and orange.',
+    parenting:'The Fun Parent — to a fault. You are the one who says yes when the other parent says no. Bedtime is a suggestion. Sugar is a food group. Your kids adore you and will absolutely throw you under the bus when they are older.'
+  }
+};
+
+const results={
+  durian:{name:'Durian',subtitle:'The Undisputed Sovereign of Chaos',verdict:"You don't walk into a room. You arrive. And everyone has feelings about it.",profile:"Your presence is overwhelming, your confidence is borderline offensive, and somehow, people who truly get you become completely devoted. You've been banned from hotels and MRT trains and wear it like a badge. Not for everyone — but fiercely beloved by the right ones.",
+    vibes:[{k:'pork_lard',why:"Both unashamedly old-school. You bring the drama, they bring the depth."},{k:'cincalok',why:"Fellow divisive icons. You bond over being misunderstood at the same dinner table."}],
+    clashes:[{k:'parsley',why:"They quietly improve things. You loudly take over. It's a lot for them."},{k:'bitter_gourd',why:"They want growth through discomfort. You want joy through excess. Irreconcilable."}],
+    catchphrase:'"I don\'t adjust my flavour. You adjust your palate."'},
+  bitter_gourd:{name:'Bitter Gourd',subtitle:'The Reluctant Intellectual',verdict:"You are, technically, very good for people. They just don't always enjoy you in the moment.",profile:"You're the friend who gives honest advice nobody asked for, then gets proven right six months later. Once people develop a taste for you, they crave it. You make people slightly uncomfortable in ways that genuinely help them grow.",
+    vibes:[{k:'vinegar',why:"Both sharp, both quietly right. You agree that comfort is overrated."},{k:'parsley',why:"You appreciate the understated. They appreciate being appreciated. Finally."}],
+    clashes:[{k:'mala',why:"They go from 0 to 100 with zero reflection. You find that genuinely exhausting."},{k:'durian',why:"Too much unchecked confidence. You have notes, and they do not want to hear them."}],
+    catchphrase:'"I said what I said."'},
+  pork_lard:{name:'Pork Lard',subtitle:'The Quietly Indispensable One',verdict:"You're the reason things actually taste good — but nobody puts you on the menu.",profile:"Unfashionable by modern standards, irreplaceable in practice. You are comfort, depth, and old-school integrity that makes everything around you better. The aunties know. The hawker uncle knows. Health trends have tried to cancel you. You are still here.",
+    vibes:[{k:'pig_intestine',why:"Shared old-school hawker energy. Zero pretension, maximum flavour, no explanation needed."},{k:'cincalok',why:"Both quietly doing their thing. Neither needs your validation, and that's the point."}],
+    clashes:[{k:'mala',why:"Too trendy, too loud, no respect for tradition. You have seen this before."},{k:'bitter_gourd',why:"They want to challenge everything you stand for. You just want to do your job in peace."}],
+    catchphrase:'"New is overrated. Have you tried doing it the right way?"'},
+  cincalok:{name:'Cincalok',subtitle:'Fermented. Complex. Divisive.',verdict:"You are either someone's deepest comfort or the reason they leave the table.",profile:"A fermented shrimp paste most people have never deliberately chosen, yet it haunts childhood memories. You were left to develop quietly, and what emerged is pungent, assertive, impossible to ignore. An acquired taste that, once acquired, becomes a craving.",
+    vibes:[{k:'pork_lard',why:"Old-school comfort meets old-school funk. No words needed between you two."},{k:'vinegar',why:"Both aged to perfection. You respect that they too have been sitting with things for a very long time."}],
+    clashes:[{k:'parsley',why:"Too delicate, too forgettable. You find their whole approach to flavour baffling."},{k:'mala',why:"All heat, no patience. You took years to develop your depth. They want everything instantly."}],
+    catchphrase:'"I\'ve been fermenting this position for years. I\'m not changing it now."'},
+  pig_intestine:{name:'Pig Intestine',subtitle:'Bold. Unapologetic. Structural.',verdict:"You take more effort to appreciate than most people are willing to give — and that's exactly how you like it.",profile:"Found in bak chor mee, satay, popiah — yet persistently controversial. You require preparation, patience, and an open mind. You reward people who don't flinch. You are not decorative. Remove you and the whole dish falls apart.",
+    vibes:[{k:'pork_lard',why:"Both load-bearing, both old-school. You do the unglamorous work side by side."},{k:'mala',why:"You're bold, they're bold. Neither of you apologises for being too much."}],
+    clashes:[{k:'parsley',why:"They think presence comes from subtlety. You physically disagree with this."},{k:'vinegar',why:"They plot quietly and hold grudges. You prefer direct confrontation. You will never agree."}],
+    catchphrase:'"I\'m not for everyone. I\'m for the right people."'},
+  parsley:{name:'Parsley',subtitle:'The One Everyone Pushes to the Side',verdict:"You are thoughtful, understated, and chronically underestimated.",profile:"Placed on the plate for a reason. Quietly enhancing the dish without announcing it. Most people push you aside without a second thought — then notice something missing. You are the detail that distinguishes careful from careless.",
+    vibes:[{k:'bitter_gourd',why:"Both quietly good for people. Neither gets enough credit. You get each other."},{k:'pork_lard',why:"They also make things better without making it about themselves. Rare and appreciated."}],
+    clashes:[{k:'durian',why:"They take up all the space and leave none for anyone else. You find it exhausting."},{k:'mala',why:"Loud, aggressive, and demands too much from everyone around it. Simply not your people."}],
+    catchphrase:'"Nobody appreciated the parsley until they stopped adding it."'},
+  vinegar:{name:'Vinegar',subtitle:'The Keeper of Receipts',verdict:"You have a long memory, a sharp tongue, and the patience of someone who knows they'll be proven right.",profile:"Sour, precise, deeply misunderstood. People reach for you to cut through richness — then recoil when they get too much. You preserve things: grudges, traditions, pork trotters, standards. At the right dose, you make everything brighter.",
+    vibes:[{k:'bitter_gourd',why:"Both acquired tastes who make people face uncomfortable truths. A deep mutual respect."},{k:'cincalok',why:"You preserve. They ferment. You both understand that time is the whole point."}],
+    clashes:[{k:'mala',why:"All escalation, no strategy. You believe in the long game. They have never heard of it."},{k:'durian',why:"Too much ego, not enough accountability. You have receipts on them, actually."}],
+    catchphrase:'"I don\'t forget. I preserve."'},
+  mala:{name:'Mala',subtitle:'The One Who Escalates Everything',verdict:"You started as a trend and became a lifestyle. Nobody can say they weren't warned.",profile:"You are not subtle. You advertise your intensity upfront, offer people levels, and still convince them to go one notch higher than they should. The aftermath is always slightly regrettable and somehow still worth it.",
+    vibes:[{k:'pig_intestine',why:"Both bold, both unapologetic. You thrive in the same loud, satisfying chaos."},{k:'durian',why:"Equally polarising, equally confident. You respect that they also make people sweat."}],
+    clashes:[{k:'parsley',why:"Too quiet, too gentle. You genuinely don't understand why anyone would hold back."},{k:'vinegar',why:"They plot and wait. You act immediately. They want receipts. You've already moved on."}],
+    catchphrase:'"You said medium. I heard maximum."'},
+};
+
+// ─── QUIZ LOGIC ───
+let scores={}, current=0;
+
+function startQuiz(){
+  Object.keys(results).forEach(k=>scores[k]=0);
+  current=0;
+  document.getElementById('intro').style.display='none';
+  const q=document.getElementById('quiz');
+  q.style.display='block';
+  q.classList.remove('panel-anim');void q.offsetWidth;q.classList.add('panel-anim');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=questions[current];
+  document.getElementById('q-label').textContent='Question '+(current+1)+' of '+questions.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress').style.width=((current/questions.length)*100)+'%';
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach(function(l,i){
+    if(!q.options[i])return;
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML='<span class="opt-letter">'+l+'</span>'+q.options[i].text;
+    btn.onclick=(function(s){return function(){selectOption(s)}})(q.options[i].scores);
+    opts.appendChild(btn);
+  });
+}
+
+function selectOption(s){
+  Object.entries(s).forEach(function(e){scores[e[0]]=(scores[e[0]]||0)+e[1]});
+  current++;
+  if(current<questions.length){
+    const qp=document.getElementById('quiz');
+    qp.classList.remove('panel-anim');void qp.offsetWidth;qp.classList.add('panel-anim');
+    renderQuestion();
+  } else {
+    // transition to game
+    document.getElementById('quiz').style.display='none';
+    const g=document.getElementById('game');
+    g.style.display='block';
+    g.classList.remove('panel-anim');void g.offsetWidth;g.classList.add('panel-anim');
+    startGame();
+  }
+}
+
+// ─── GAME LOGIC ───
+const LEVELS=[
+  {speed:2.0, tableW:120},
+  {speed:3.2, tableW:96},
+  {speed:4.6, tableW:72},
+  {speed:6.2, tableW:50},
+  {speed:8.2, tableW:34},
+];
+const HIT_MSGS=['SHIOK! ✓','STEADY LAH! ✓','POWER! ✓','ON POINT! ✓','CHOPE! ✓'];
+const MISS_MSGS=['AIYOH! MISS!','SO CLOSE LAH!','BLUR SOTONG!','AIYOH NO!','MISSED LAH!'];
+const TISSUE_W=36;
+
+let gLevel=0, gScore=0, gPos=0, gDir=1, gRunning=false, gRAF=null, gArenaW=0, gPrevTime=null, gActive=false;
+
+function initPips(){
+  const c=document.getElementById('game-pips');
+  c.innerHTML='';
+  for(let i=0;i<5;i++){
+    const d=document.createElement('div');
+    d.className='game-pip pending';
+    d.id='gp'+i;
+    c.appendChild(d);
+  }
+}
+
+function setPip(i,state){
+  const p=document.getElementById('gp'+i);
+  if(p)p.className='game-pip '+state;
+}
+
+function startGame(){
+  gLevel=0; gScore=0; gPos=0; gDir=1; gPrevTime=null; gActive=true;
+  document.getElementById('game-score-display').textContent='0';
+  document.getElementById('game-level-display').textContent='1';
+  document.getElementById('game-feedback').style.display='none';
+  document.getElementById('game-stop-btn').style.display='block';
+  initPips();
+  setPip(0,'active');
+  layoutLevel();
+  runLoop();
+}
+
+function layoutLevel(){
+  const arena=document.getElementById('game-arena');
+  gArenaW=arena.offsetWidth||380;
+  const lv=LEVELS[gLevel];
+  const tableEl=document.getElementById('game-table');
+  tableEl.style.width=lv.tableW+'px';
+  // randomise table position within middle 60% of arena
+  const margin=Math.round(gArenaW*0.2);
+  const maxLeft=gArenaW-lv.tableW-margin;
+  const tableLeft=margin+Math.round(Math.random()*(maxLeft-margin));
+  tableEl.style.left=tableLeft+'px';
+  gPos=0; gDir=1;
+  document.getElementById('game-tissue').style.left='0px';
+  document.getElementById('game-level-display').textContent=(gLevel+1);
+}
+
+function runLoop(){
+  gRunning=true; gPrevTime=null;
+  function loop(ts){
+    if(!gRunning)return;
+    if(gPrevTime===null)gPrevTime=ts;
+    const dt=Math.min((ts-gPrevTime)/16.667,3);
+    gPrevTime=ts;
+    const arena=document.getElementById('game-arena');
+    gArenaW=arena.offsetWidth||380;
+    const maxPos=gArenaW-TISSUE_W;
+    const speed=LEVELS[gLevel].speed;
+    gPos+=gDir*speed*dt;
+    if(gPos>=maxPos){gPos=maxPos;gDir=-1;}
+    if(gPos<=0){gPos=0;gDir=1;}
+    document.getElementById('game-tissue').style.left=Math.round(gPos)+'px';
+    gRAF=requestAnimationFrame(loop);
+  }
+  gRAF=requestAnimationFrame(loop);
+}
+
+function gameStop(){
+  if(!gActive||!gRunning)return;
+  gRunning=false;
+  if(gRAF)cancelAnimationFrame(gRAF);
+  // check hit
+  const lv=LEVELS[gLevel];
+  const arena=document.getElementById('game-arena');
+  gArenaW=arena.offsetWidth||380;
+  const tableEl=document.getElementById('game-table');
+  const tableLeft=parseInt(tableEl.style.left)||0;
+  const tissueCentre=gPos+TISSUE_W/2;
+  const hit=(tissueCentre>=tableLeft && tissueCentre<=tableLeft+lv.tableW);
+  resolveLevel(hit);
+}
+
+function resolveLevel(hit){
+  gActive=false;
+  document.getElementById('game-stop-btn').style.display='none';
+  // pip update
+  setPip(gLevel, hit?'hit':'miss');
+  // burst
+  const burst=document.getElementById('game-burst');
+  const msg=hit?HIT_MSGS[gLevel]:MISS_MSGS[gLevel];
+  burst.textContent=msg;
+  burst.style.background=hit?'#6BCB77':'#FF3B3B';
+  burst.style.color=hit?'#1a1a1a':'#fff';
+  burst.style.opacity='1';
+  setTimeout(function(){burst.style.opacity='0';},1400);
+  // tissue wobble on hit
+  if(hit){
+    const t=document.getElementById('game-tissue');
+    t.classList.add('tissue-wobble');
+    setTimeout(function(){t.classList.remove('tissue-wobble');},400);
+    gScore++;
+    document.getElementById('game-score-display').textContent=gScore;
+  }
+  // feedback strip
+  const fb=document.getElementById('game-feedback');
+  fb.style.display='block';
+  fb.className='game-feedback '+(hit?'hit':'miss');
+  if(hit){
+    fb.textContent=msg+' Tissue landed on the table!';
+  } else {
+    fb.textContent=msg+' Tissue missed — game over!';
+  }
+  if(hit && gLevel<4){
+    // auto-advance after short delay
+    setTimeout(function(){
+      fb.style.display='none';
+      gLevel++;
+      setPip(gLevel,'active');
+      layoutLevel();
+      gActive=true;
+      document.getElementById('game-stop-btn').style.display='block';
+      runLoop();
+    },1200);
+  } else {
+    // game over (miss) or all 5 done — proceed to result
+    setTimeout(function(){
+      document.getElementById('game').style.display='none';
+      doShowResult();
+    },1600);
+  }
+}
+
+// ─── RESULT ───
+function doShowResult(){
+  const sorted=Object.entries(scores).sort(function(a,b){return b[1]-a[1];});
+  // game score bonus: add 1 point per level cleared to the top ingredient
+  // This means a strong game performance can nudge a close tie
+  const gameBonus=gScore;
+  sorted[0][1]+=gameBonus;
+  const winner=sorted[0][0];
+  const r=results[winner];
+  const ex=extras[winner];
+  document.getElementById('progress').style.width='100%';
+  const res=document.getElementById('result');
+  res.style.display='block';
+  res.classList.remove('panel-anim');void res.offsetWidth;res.classList.add('panel-anim');
+  document.getElementById('res-icon').innerHTML=foodSVGs[winner];
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-subtitle').textContent=r.subtitle;
+  document.getElementById('res-verdict').textContent=r.verdict;
+  document.getElementById('res-profile').textContent=r.profile;
+  document.getElementById('res-catchphrase').textContent=r.catchphrase;
+  document.getElementById('res-bible').textContent=ex.bible;
+  document.getElementById('res-parenting').textContent=ex.parenting;
+  // game score card
+  const gameCard=document.getElementById('res-game-card');
+  gameCard.style.display='block';
+  const scoreMsgs=[
+    'You could not chope a seat if your life depended on it. Disqualified from all buffet queues.',
+    'One level. You made it one level. This is noted.',
+    'Two levels. Adequate. The tissue made it to the table twice.',
+    'Three levels cleared. You have above-average hawker reflexes.',
+    'Four out of five. Genuinely impressive. The aunties approve.',
+    'PERFECT SCORE. You cleared all five levels. You are the tissue packet. You are the table. You are Singapore.'
+  ];
+  document.getElementById('res-game-body').textContent=
+    'You cleared '+gScore+' out of 5 levels. '+scoreMsgs[gScore];
+  const vibesEl=document.getElementById('res-vibes');
+  vibesEl.innerHTML='';
+  r.vibes.forEach(function(item){
+    const d=document.createElement('div');d.className='compat-item';
+    d.innerHTML='<span class="compat-img">'+foodSVGsSmall[item.k]+'</span><span class="compat-text"><span class="compat-name">'+foodNames[item.k]+'</span><span class="compat-reason">'+item.why+'</span></span>';
+    vibesEl.appendChild(d);
+  });
+  const clashesEl=document.getElementById('res-clashes');
+  clashesEl.innerHTML='';
+  r.clashes.forEach(function(item){
+    const d=document.createElement('div');d.className='compat-item';
+    d.innerHTML='<span class="compat-img">'+foodSVGsSmall[item.k]+'</span><span class="compat-text"><span class="compat-name">'+foodNames[item.k]+'</span><span class="compat-reason">'+item.why+'</span></span>';
+    clashesEl.appendChild(d);
+  });
+}
+
+function restart(){
+  scores={};current=0;gScore=0;gLevel=0;gActive=false;gRunning=false;
+  if(gRAF)cancelAnimationFrame(gRAF);
+  document.getElementById('result').style.display='none';
+  document.getElementById('game').style.display='none';
+  const intro=document.getElementById('intro');
+  intro.style.display='block';
+  intro.classList.remove('panel-anim');void intro.offsetWidth;intro.classList.add('panel-anim');
+}
+</script>
+</body>
+</html>
