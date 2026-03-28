@@ -25,7 +25,9 @@ body{background:#FFF9ED;background-image:radial-gradient(#e8c96a 1.5px,transpare
 .options{display:flex;flex-direction:column;gap:10px}
 .opt{background:#fff;border:2.5px solid #1a1a1a;box-shadow:4px 4px 0 #1a1a1a;padding:13px 16px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:#1a1a1a;text-align:left;cursor:pointer;display:flex;align-items:flex-start;gap:12px;line-height:1.5;transition:all .07s;position:relative;overflow:hidden}
 .opt-letter{font-family:'Fredoka One',cursive;font-size:18px;color:#FF3B3B;min-width:22px;line-height:1.2;flex-shrink:0}
-.opt:hover{background:#FFD600;transform:translate(-3px,-3px);box-shadow:7px 7px 0 #1a1a1a}
+@media(hover:hover) and (pointer:fine){
+  .opt:hover{background:#FFD600;transform:translate(-3px,-3px);box-shadow:7px 7px 0 #1a1a1a}
+}
 .opt:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #1a1a1a}
 @keyframes popIn{from{opacity:0;transform:rotate(10deg) scale(0.5)}to{opacity:1;transform:rotate(10deg) scale(1)}}
 @keyframes panelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
