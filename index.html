@@ -502,7 +502,12 @@ function resolveLevel(hit){
     // game over (miss) or all 5 done — proceed to result
     setTimeout(function(){
       document.getElementById('game').style.display='none';
-      function getCGArrival(winner,gameScore){
+      doShowResult();
+    },1600);
+  }
+}
+
+function getCGArrival(winner,gameScore){
   const bases=[25,16,6,0,-5,-14,-20];
   const baseMins=bases[Math.max(0,Math.min(5,5-gameScore))];
   const modifiers={pork_lard:-10,bitter_gourd:-5,cincalok:-5,vinegar:0,pig_intestine:0,parsley:5,durian:10,mala:15};
@@ -520,10 +525,6 @@ function resolveLevel(hit){
   const label=finalMins<-15?'20+ min early':finalMins<-8?'10–19 min early':finalMins<-1?'1–9 min early':finalMins<=1?'On time':finalMins<=10?'1–10 min late':finalMins<=20?'11–20 min late':'21+ min late';
   return {label:label,writeup:writeup};
 }
-      doShowResult();
-    },1600);
-  }
-}
 
 // ─── RESULT ───
 function doShowResult(){
@@ -536,8 +537,6 @@ function doShowResult(){
   const r=results[winner];
   const ex=extras[winner];
   const cg=getCGArrival(winner,gScore);
-document.getElementById('res-cg-label').textContent=cg.label;
-document.getElementById('res-cg-body').textContent=cg.writeup;
   document.getElementById('progress').style.width='100%';
   const res=document.getElementById('result');
   res.style.display='block';
@@ -550,6 +549,8 @@ document.getElementById('res-cg-body').textContent=cg.writeup;
   document.getElementById('res-catchphrase').textContent=r.catchphrase;
   document.getElementById('res-bible').textContent=ex.bible;
   document.getElementById('res-parenting').textContent=ex.parenting;
+  document.getElementById('res-cg-label').textContent=cg.label;
+  document.getElementById('res-cg-body').textContent=cg.writeup;
   // game score card
   const gameCard=document.getElementById('res-game-card');
   gameCard.style.display='block';
