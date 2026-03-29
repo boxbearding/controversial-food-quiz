@@ -140,6 +140,7 @@ body{background:#FFF9ED;background-image:radial-gradient(#e8c96a 1.5px,transpare
   <div class="rcard"><div class="rcard-head">&#128172; YOUR CATCHPHRASE</div><div class="rcard-body" id="res-catchphrase"></div></div>
   <div class="rcard"><div class="rcard-head">&#128218; YOUR BIBLE VERSION</div><div class="rcard-body" id="res-bible"></div></div>
   <div class="rcard"><div class="rcard-head">&#128106; YOUR PARENTING STYLE</div><div class="rcard-body" id="res-parenting"></div></div>
+  <div class="rcard"><div class="rcard-head">&#128205; TIME THEY ARRIVE FOR CG</div><div class="rcard-body"><div style="font-family:'Fredoka One',cursive;font-size:22px;color:#FF3B3B;margin-bottom:6px" id="res-cg-label"></div><div id="res-cg-body"></div></div></div>
   <div class="rcard" id="res-game-card" style="display:none"><div class="rcard-head">&#127918; TISSUE CHOPE SCORE</div><div class="rcard-body" id="res-game-body"></div></div>
   <button class="retry-btn" onclick="restart()">&#8635; TRY AGAIN (YOU MIGHT BE WORSE)</button>
 </div>
@@ -501,6 +502,24 @@ function resolveLevel(hit){
     // game over (miss) or all 5 done — proceed to result
     setTimeout(function(){
       document.getElementById('game').style.display='none';
+      function getCGArrival(winner,gameScore){
+  const bases=[25,16,6,0,-5,-14,-20];
+  const baseMins=bases[Math.max(0,Math.min(5,5-gameScore))];
+  const modifiers={pork_lard:-10,bitter_gourd:-5,cincalok:-5,vinegar:0,pig_intestine:0,parsley:5,durian:10,mala:15};
+  const finalMins=baseMins+(modifiers[winner]||0);
+  const writeups=[
+    {t:-15,text:'You are already there helping set up and wondering why nobody else is. You have also brought extra chairs.'},
+    {t:-8, text:'You arrive early enough to get the good seat and mentally clock who comes in after you.'},
+    {t:-1, text:'You timed it perfectly and you know it. You walk in calm, unhurried, and quietly smug.'},
+    {t:1,  text:'You arrive exactly when it starts, which somehow feels both respectful and slightly suspicious.'},
+    {t:11, text:'You knew you\'d be a little late. You made peace with this before you even left the house.'},
+    {t:21, text:'You are technically on the way. You have been on the way for 25 minutes.'},
+    {t:Infinity,text:'Your location is set to \'On the way\'. You are not on the way. You haven\'t showered yet.'},
+  ];
+  const writeup=writeups.find(function(w){return finalMins<w.t;}).text;
+  const label=finalMins<-15?'20+ min early':finalMins<-8?'10–19 min early':finalMins<-1?'1–9 min early':finalMins<=1?'On time':finalMins<=10?'1–10 min late':finalMins<=20?'11–20 min late':'21+ min late';
+  return {label:label,writeup:writeup};
+}
       doShowResult();
     },1600);
   }
@@ -516,6 +535,9 @@ function doShowResult(){
   const winner=sorted[0][0];
   const r=results[winner];
   const ex=extras[winner];
+  const cg=getCGArrival(winner,gScore);
+document.getElementById('res-cg-label').textContent=cg.label;
+document.getElementById('res-cg-body').textContent=cg.writeup;
   document.getElementById('progress').style.width='100%';
   const res=document.getElementById('result');
   res.style.display='block';
